@@ -11,14 +11,17 @@ function App() {
   };
 
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getData = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get("https://api.adviceslip.com/advice");
       setData(response.data);
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
   const updateAdvice = () => {
     getData();
@@ -28,10 +31,14 @@ function App() {
     getData();
   }, []);
 
-  return (
+  return isLoading ? (
+    <div className="flex flex-col justify-center items-center font-manrope font-extrabold text-9xl leading-4 text-center tracking-wider text-neon bg-transparent">
+      Wait...
+    </div>
+  ) : (
     <div className="flex flex-col justify-center items-center w-[343px] bg-[#374151] shadow-lg rounded-[10px] m-auto px-[24px] pt-10 xl:w-2/6">
       <div className="flex flex-col justify-center items-center gap-y-6 bg-transparent mb-6">
-        <div class="font-manrope font-extrabold text-xs leading-4 text-center tracking-wider text-neon bg-transparent">
+        <div className="font-manrope font-extrabold text-xs leading-4 text-center tracking-wider text-neon bg-transparent">
           Advice
           <span className="bg-transparent">"#{data?.slip?.id}"</span>
         </div>
