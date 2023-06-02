@@ -14,14 +14,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const getData = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const response = await axios.get("https://api.adviceslip.com/advice");
       setData(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
   const updateAdvice = () => {
     getData();
@@ -32,8 +33,8 @@ function App() {
   }, []);
 
   return isLoading ? (
-    <div className="flex flex-col justify-center items-center font-manrope font-extrabold text-9xl leading-4 text-center tracking-wider text-neon bg-transparent">
-      Wait...
+    <div className="flex flex-col justify-center items-center w-full font-manrope font-extrabold md:text-9xl leading-4 text-center tracking-wider text-neon bg-transparent text-2xl">
+      Loading...
     </div>
   ) : (
     <div className="flex flex-col justify-center items-center w-[343px] bg-[#374151] shadow-lg rounded-[10px] m-auto px-[24px] pt-10 xl:w-2/6">
